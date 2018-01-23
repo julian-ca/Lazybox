@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+
+case "$1" in
+
+
+"switch")
+
+      VM_RUNNING=`vagrants running`
+
+        if [ -z "$2" ]; then
+        	exit
+        fi
+
+        for vm in $LAZY_VAGRANT_HOME/*; do
+
+        	if [ "$vm" == "$LAZY_VAGRANT_HOME/$2" ]; then
+        		continue
+        	elif [ -z "$VM_RUNNING" ] || [ "$vm" != "$VM_RUNNING" ]; then
+        	    continue
+        	fi
+
+        	cd $vm
+        	echo "$vm: vagrant halt"
+        	vagrant halt 2> /dev/null
+        done
+
+        echo "$LAZY_VAGRANT_HOME/$2: vagrant up"
+        cd $LAZY_VAGRANT_HOME/$2
+        vagrant up
+;;
+
+"running")
+
+
+    for vm in $LAZY_VAGRANT_HOME/*; do
+
+        cd $vm
+        STATUS=$(vagrant status)
+        STATUS=$(echo "$STATUS" | grep "running")
+
+        if [ ${#STATUS} -ne 0 ]; then
+            if [ -z "$2" ]; then
+                echo "$vm"
+                exit
+            else
+                CMD="vagrant $2"
+                $CMD
+            fi
+        fi
+
+    done
+
+;;
+
+esac
