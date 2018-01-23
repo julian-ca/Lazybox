@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if [ -e $DIR/../man/$1 ]; then
+
+    echo -ne "\n"
+    cat "$DIR/../man/$1"
+    echo -ne "\n"
+
+else
+
+    echo -ne "\n\tThere's no man page for this command.\n\tThe author should have been too lazy to write one.\n"
+
+fi

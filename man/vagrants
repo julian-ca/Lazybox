@@ -1,0 +1,6 @@
+    Usage: vagrants command [args]
+
+    commands:
+
+        running - retrieves the currently running vm
+        switch  - switch into the target vm
