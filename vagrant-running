@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+VM_DIR=/d/coding-avenue/vagrant
+
+for vm in $VM_DIR/*; do
+
+	cd $vm
+	STATUS=$(vagrant status)
+	STATUS=$(echo "$STATUS" | grep "running")
+
+    if [ ${#STATUS} -ne 0 ]
+    then
+        if [ -z "$1" ]
+        then
+            echo "Currently running VM: $vm"
+            exit
+        else
+            CMD="vagrant $1"
+            $CMD
+        fi
+    fi
+
+done
+
